@@ -15,7 +15,8 @@ class ExpireCert:
             self.client = paramiko.SSHClient()
             self.client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             self.client.load_system_host_keys()
-            self.con = self.client.connect(hostname=self.hostname, username=self.user, password=self.password, port=self.port)
+            self.client.connect(hostname=self.hostname, username=self.user, password=self.password, port=self.port)
+            self.con = self.client
             return self.con
         except Exception as e:
             return e
