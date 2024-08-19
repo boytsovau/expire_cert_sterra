@@ -9,7 +9,9 @@ class ExpireCert:
         self.username = username
         self.password = password
         self.port = port
-        self.data = ""
+
+
+    def make_con(self):
         try:
             self.client = paramiko.SSHClient()
             self.client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -25,8 +27,8 @@ class ExpireCert:
             self.command = command
             stdin, stdout, stderr = self.con.exec_command(self.command)
             byte_data = stdout.read() + stderr.read()
-            self.data = str(byte_data, encoding ='utf-8')
-            return self.data
+            data = str(byte_data, encoding ='utf-8')
+            return data
         except Exception as e:
             return e
 
