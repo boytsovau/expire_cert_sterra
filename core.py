@@ -10,6 +10,7 @@ class ExpireCert:
         self.password = password
         self.port = port
 
+
     def make_con(self):
         try:
             self.client = paramiko.SSHClient()
@@ -25,8 +26,8 @@ class ExpireCert:
             self.command = command
             stdin, stdout, stderr = self.con.exec_command(self.command)
             byte_data = stdout.read() + stderr.read()
-            data = str(byte_data, encoding ='utf-8')
-            return data
+            self.data = str(byte_data, encoding ='utf-8')
+            return self.data
         except Exception as e:
             return e
 

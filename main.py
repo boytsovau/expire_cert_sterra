@@ -9,7 +9,7 @@ def main():
     parser.add_argument('--password', required=True, help="Пароль для подключения.")
     parser.add_argument('--port', type=int, default=22, help="Пароль для подключения.")
     parser.add_argument('--command', type=str, required=True, help="команда для выполнения.")
-    parser.add_argument('--command', type=int, default=30, help="Дней до конца сертификата. По умолчанию 30")
+    parser.add_argument('--days', type=int, default=30, help="Дней до конца сертификата. По умолчанию 30")
 
     args = parser.parse_args()
 
