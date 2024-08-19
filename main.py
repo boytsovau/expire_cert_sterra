@@ -14,11 +14,14 @@ def main():
     args = parser.parse_args()
 
     for host in args.hostname:
-        con = ExpireCert(host, args.username, args.password, args.port)
-        con.make_con()
-        con.send_command(args.command)
-        exp = con.get_expire(args.days)
-        print(f"{host}\n\n{exp}")
+        try:
+            con = ExpireCert(host, args.username, args.password, args.port)
+            con.make_con()
+            con.send_command(args.command)
+            exp = con.get_expire(args.days)
+            print(f"{host}\n\n{exp}")
+        except Exception as e:
+            print(e)
 
 if __name__ == "__main__":
     main()

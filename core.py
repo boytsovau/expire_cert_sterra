@@ -10,7 +10,6 @@ class ExpireCert:
         self.password = password
         self.port = port
 
-
     def make_con(self):
         try:
             self.client = paramiko.SSHClient()
