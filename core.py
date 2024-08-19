@@ -9,6 +9,7 @@ class ExpireCert:
         self.username = username
         self.password = password
         self.port = port
+        self.data = ""
 
     def make_con(self):
         try:
