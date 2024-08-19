@@ -10,8 +10,6 @@ class ExpireCert:
         self.password = password
         self.port = port
         self.data = ""
-
-    def make_con(self):
         try:
             self.client = paramiko.SSHClient()
             self.client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
