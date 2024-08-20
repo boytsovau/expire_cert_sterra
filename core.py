@@ -43,7 +43,7 @@ class ExpireCert:
         for line in self.data.splitlines():
             if 'local' in line:
                 cert_id = line.split()[0]
-                stdin, stdout, stderr = self.con.exec_command(f'cert_mgr show -i {cert_id}')
+                stdin, stdout, stderr = self.client.exec_command(f'cert_mgr show -i {cert_id}')
                 data_string = (stdout.read() + stderr.read()).decode('utf-8')
 
                 result_dict = {
