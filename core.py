@@ -39,18 +39,18 @@ class ExpireCert:
         if not self.data:
             return "No data to process."
 
-        cert_dict = {}
+        self.cert_dict = {}
         for line in self.data.splitlines():
             if 'local' in line:
                 cert_id = line.split()[0]
                 stdin, stdout, stderr = self.client.exec_command(f'cert_mgr show -i {cert_id}')
                 data_string = (stdout.read() + stderr.read()).decode('utf-8')
 
-                result_dict = {
+                self.result_dict = {
                     key.strip(): value.strip()
                     for key, value in (line.split(': ', 1) for line in data_string.splitlines() if ': ' in line)
                 }
-                cert_dict[cert_id] = result_dict
+                self.cert_dict[cert_id] = self.result_dict
 
         for key, value in self.cert_dict.items():
 
