@@ -58,7 +58,7 @@ class ExpireCert:
             if valid_to_str:
                 expire_date = datetime.strptime(valid_to_str, "%a %b %d %H:%M:%S %Y")
                 now = datetime.now().date()
-                day_exp = (expire_date - now).days
+                day_exp = (expire_date.date() - now).days
             if day_exp < days:
                 cert_subject = value.get('Subject')
                 cert_valid_date = value.get('Valid to')
@@ -71,5 +71,5 @@ class ExpireCert:
                           f"Valid to: {cert_valid_date}\n"
                           f"Issuer: {cert_issuer}\n"
                           f"Serial: {cert_serial}")
-            self.con.close()
-            return f"Нет сертификатов с истекающим сроком действия более {days}"
+            self.client.close()
+            return f"Нет сертификатов со сроком действия менее {days} дней"
