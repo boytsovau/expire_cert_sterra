@@ -38,19 +38,19 @@ class ExpireCert:
     def get_expire(self, days: int) -> str:
         if not self.data:
             return "No data to process."
-        result = [i for i in self.data.split('\n') if 'local' in i]
-        self.cert_dict = {}
-        for i in result:
-            stdin, stdout, stderr = self.client.exec_command(f'cert_mgr show -i {i[0]}')
-            data_string = (str(stdout.read() + stderr.read(), encoding = 'utf-8'))
 
-            lines = data_string.split('\n')[1:]
-            self.result_dict = {}
-            for line in lines:
-                if ': ' in line:
-                    key, value = line.split(': ', 1)
-                    self.result_dict[key.strip()] = value.strip()
-            self.cert_dict[i[0]] = self.result_dict
+        cert_dict = {}
+        for line in self.data.splitlines():
+            if 'local' in line:
+                cert_id = line.split()[0]
+                stdin, stdout, stderr = self.con.exec_command(f'cert_mgr show -i {cert_id}')
+                data_string = (stdout.read() + stderr.read()).decode('utf-8')
+
+                result_dict = {
+                    key.strip(): value.strip()
+                    for key, value in (line.split(': ', 1) for line in data_string.splitlines() if ': ' in line)
+                }
+                cert_dict[cert_id] = result_dict
 
         for key, value in self.cert_dict.items():
 
