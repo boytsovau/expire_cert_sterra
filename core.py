@@ -38,7 +38,6 @@ class ExpireCert:
     def get_expire(self, days: int) -> str:
         if not self.data:
             return "No data to process."
-
         self.cert_dict = {}
         for line in self.data.splitlines():
             if 'local' in line:
