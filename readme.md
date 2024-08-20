@@ -17,6 +17,13 @@
     cd expire_cert_sterra
     ```
 
+2. Разверните вирутальное окружение:
+
+    ```bash
+    python3 -m venv venv
+    source /venv/bin/activate
+    ```
+
 2. Установите необходимые зависимости:
 
     ```bash
