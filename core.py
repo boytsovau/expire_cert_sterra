@@ -18,12 +18,12 @@ class ExpireCert:
             self.client.load_system_host_keys()
             self.client.connect(hostname=self.hostname, username=self.user, password=self.password, port=self.port)
             self.con = self.client
-            return self.con
         except Exception as e:
             return e
 
     def send_command(self, command: str) -> str:
         try:
+            self.make_con()
             self.command = command
             stdin, stdout, stderr = self.con.exec_command(self.command)
             byte_data = stdout.read() + stderr.read()
@@ -69,6 +69,8 @@ class ExpireCert:
                           f"Valid to: {cert_valid_date}\n"
                           f"Issuer: {cert_issuer}\n"
                           f"Serial: {cert_serial}")
+                self.con.close()
                 return result
             else:
+                self.con.close()
                 return "Поле 'Valid to' не найдено в словаре."
