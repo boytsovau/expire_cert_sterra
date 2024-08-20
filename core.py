@@ -58,7 +58,7 @@ class ExpireCert:
                 now = datetime.now().date()
                 day_exp = expire_date - now
 
-            if day_exp < 30:
+            if day_exp < self.days:
                 cert_subject = value.get('Subject')
                 cert_valid_date = value.get('Valid to')
                 cert_issuer = value.get('Issuer')
