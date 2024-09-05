@@ -19,9 +19,14 @@ class ExpireCert:
             self.client.load_system_host_keys()
             self.client.connect(hostname=self.hostname, username=self.username, password=self.password, port=self.port)
             return self.client
-            print(f"Succesful connected to {self.hostname}\n\n")
+        except paramiko.AuthenticationException:
+            self.client.close()
+            print(f"Authentication failed for {self.hostname}")
+        except paramiko.SSHException as ssh_error:
+            print(f"SSH error for {self.hostname}: {ssh_error}")
         except Exception as e:
-            print(f"No connection to {self.hostname}: {e}\n\n")
+            print(f"Failed to connect to {self.hostname}: {e}")
+        return False
 
     def send_command(self, command: str) -> str:
         if not self.client:

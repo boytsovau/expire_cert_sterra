@@ -16,12 +16,14 @@ def main():
     for host in args.hostname:
         try:
             con = ExpireCert(host, args.username, args.password, args.port)
-            con.make_con()
+            if not con.make_con():
+                continue
             con.send_command(args.command)
             exp = con.get_expire(args.days)
             print(f"\nHOST: {host}\n\n{exp}")
         except Exception as e:
             print(e)
+            continue
 
 
 if __name__ == "__main__":
