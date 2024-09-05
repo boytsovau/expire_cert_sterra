@@ -4,12 +4,13 @@ from datetime import datetime
 
 class ExpireCert:
 
-    def __init__(self, hostname: str, username: str, password: str, port: int) -> None:
+    def init(self, hostname: str, username: str, password: str, port: int) -> None:
         self.hostname = hostname
         self.username = username
         self.password = password
         self.port = port
         self.data = ""
+        self.result = ""
 
     def make_con(self):
         try:
@@ -50,9 +51,7 @@ class ExpireCert:
                     for key, value in (line.split(': ', 1) for line in data_string.splitlines() if ': ' in line)
                 }
                 self.cert_dict[cert_id] = self.result_dict
-
         for key, value in self.cert_dict.items():
-
             valid_to_str = value.get('Valid to')
             if valid_to_str:
                 expire_date = datetime.strptime(valid_to_str, "%a %b %d %H:%M:%S %Y")
@@ -63,12 +62,15 @@ class ExpireCert:
                 cert_valid_date = value.get('Valid to')
                 cert_issuer = value.get('Issuer')
                 cert_serial = value.get('Serial number')
-                self.client.close()
-                return (f"Сертификат {cert_subject} просрочится через {day_exp} дней.\n\n"
+                self.result += (f"Сертификат {cert_subject} просрочится через {day_exp} дней.\n\n"
                           f"Данные по сертификату:\n\n"
+                          f"ID Сертификата: {key}\n\n"
                           f"Subject: {cert_subject}\n"
                           f"Valid to: {cert_valid_date}\n"
                           f"Issuer: {cert_issuer}\n"
-                          f"Serial: {cert_serial}")
-            self.client.close()
-            return f"Нет сертификатов со сроком действия менее {days} дней"
+                          f"Serial: {cert_serial}\n\n")
+        self.client.close()
+
+        if self.result:
+            return self.result
+        return f"Нет сертификатов со сроком действия менее {days} дней"
